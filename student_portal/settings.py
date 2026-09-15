@@ -23,7 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-3b+r+x2i@+pl6aqqfo@)7xx)#^bc&i0)jle5@wlw&f^ha=4*z8')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()]
+ALLOWED_HOSTS = [
+    'students.wistoraiq.com',
+    'wistora-students-data.onrender.com',
+    'localhost',
+    '127.0.0.1',
+    *[host.strip() for host in os.environ.get('ALLOWED_HOSTS', '').split(',') if host.strip()],
+]
 render_hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if render_hostname:
     ALLOWED_HOSTS.append(render_hostname)
