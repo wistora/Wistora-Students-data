@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dashboard | Student Portal
+{% endblock %}
+
+{% block content %}
+
+<h1>Hi, {{ user.get_full_name|default:user.username }}</h1>
+
+<p class="muted">
+    Choose a published quiz to begin.
+</p>
+
+<div class="grid">
+
+    {% for quiz in quizzes %}
+
+        <article class="panel">
+
+            <h2>{{ quiz.title }}</h2>
+
+            <p>{{ quiz.description }}</p>
+
+            <p class="muted">
+                {{ quiz.questions.count }} question{{ quiz.questions.count|pluralize }}
+            </p>
+
+            <a class="button" href="{% url 'take_quiz' quiz.id %}">
+                Take quiz
+            </a>
+
+        </article>
+
+    {% empty %}
+
+        <div class="panel">
+            <p>No quizzes are available yet.</p>
+        </div>
+
+    {% endfor %}
+
+</div>
+
+<h2>Recent attempts</h2>
+
+<div class="panel">
+
+    {% for attempt in attempts %}
+
+        <p>
+            <a href="{% url 'result' attempt.id %}">
+                {{ attempt.quiz.title }}
+            </a>
+            &mdash;
+            {{ attempt.score }}/{{ attempt.total_questions }}
+        </p>
+
+    {% empty %}
+
+        <p class="muted">
+            Your completed quizzes will appear here.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+

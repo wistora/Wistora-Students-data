@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Quiz result | Student Portal{% endblock %}
+{% block content %}
+<section class="result-panel panel">
+	<p class="result-kicker">Quiz complete</p>
+	<h1>{{ attempt.quiz.title }}</h1>
+	<div class="score-layout">
+		<div class="score-ring" style="--score: {{ score_percent }}%;" role="img" aria-label="Score: {{ score_percent }} percent">
+			<div class="score-ring__inner"><strong>{{ score_percent }}%</strong><span>score</span></div>
+		</div>
+		<div class="score-copy">
+			<p class="score-label">Your result</p>
+			<p class="score-total"><strong>{{ attempt.score }}/{{ attempt.total_questions }}</strong></p>
+			{% if score_percent >= 50 %}<p class="score-message">Great work. You passed this quiz.</p>{% else %}<p class="score-message">Keep practicing. You can improve on your next attempt.</p>{% endif %}
+			<a class="button" href="{% url 'dashboard' %}">Back to dashboard</a>
+		</div>
+	</div>
+</section>
+{% endblock %}

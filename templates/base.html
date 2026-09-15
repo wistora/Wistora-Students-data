@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Student Portal{% endblock %}</title>
+    <style>
+        :root {
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            color: #0B0E2E;
+            background: #F5F8FB;
+            --navy: #0B0E2E;
+            --cyan: #14ADCD;
+            --canvas: #F5F8FB;
+            --line: #d9e5ec;
+            --muted: #5c6c7c;
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; min-height: 100vh; background: radial-gradient(circle at top right, #14ADCD18, transparent 32rem), var(--canvas); }
+        header { background: var(--navy); color: white; padding: 1.1rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--cyan); }
+        header strong { letter-spacing: .04em; font-size: 1.05rem; }
+        header a { color: white; text-decoration: none; margin-left: 1rem; }
+        header nav a:hover, header nav a:focus { color: var(--cyan); }
+        main { max-width: 960px; margin: 2.5rem auto; padding: 0 1rem; }
+        h1, h2 { color: var(--navy); letter-spacing: -.02em; }
+        h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-top: 0; }
+        .panel { background: rgba(255, 255, 255, .82); padding: 1.5rem; border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 10px 30px #0B0E2E0c; margin-bottom: 1rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+        .grid .panel { border-top: 4px solid var(--cyan); }
+        label { display: block; font-weight: 700; margin: .8rem 0 .3rem; }
+        input, select { width: 100%; padding: .7rem .75rem; box-sizing: border-box; border: 1px solid #b9cbd6; border-radius: 4px; background: white; color: var(--navy); }
+        input:focus, select:focus { outline: 3px solid #14ADCD45; border-color: var(--cyan); }
+        button, .button { display: inline-block; background: var(--cyan); color: var(--navy); font-weight: 700; border: 0; border-radius: 4px; padding: .75rem 1.1rem; text-decoration: none; cursor: pointer; margin-top: 1rem; transition: transform .18s ease, background .18s ease; }
+        button:hover, .button:hover { background: #0d91ad; color: white; transform: translateY(-1px); }
+        .muted { color: var(--muted); }
+        a { color: #087e9b; font-weight: 700; }
+        .errorlist, .messages { color: #a83b29; padding-left: 1.2rem; }
+        .option { margin: .7rem 0; font-weight: normal; }
+        .result-panel { text-align: center; padding: clamp(1.5rem, 5vw, 3rem); overflow: hidden; }
+        .result-kicker, .score-label { color: #087e9b; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+        .result-panel h1 { margin-bottom: 2rem; }
+        .score-layout { display: flex; align-items: center; justify-content: center; gap: clamp(2rem, 7vw, 5rem); text-align: left; }
+        .score-ring { display: grid; place-items: center; flex: 0 0 auto; width: 190px; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--cyan) var(--score), #dce8ee var(--score)); animation: score-reveal 1.2s cubic-bezier(.2, .8, .2, 1) both; transform: rotate(-90deg); box-shadow: 0 12px 28px #14ADCD30; }
+        .score-ring__inner { display: grid; place-content: center; width: 78%; aspect-ratio: 1; border-radius: 50%; background: var(--navy); color: white; text-align: center; transform: rotate(90deg); }
+        .score-ring__inner strong { color: var(--cyan); font-size: 2.25rem; line-height: 1; }
+        .score-ring__inner span { color: #dce8ee; font-size: .8rem; margin-top: .35rem; }
+        .score-copy { min-width: 190px; }
+        .score-total { color: var(--muted); font-size: 1.35rem; margin: .4rem 0 1rem; }
+        .score-total strong { color: var(--navy); font-size: 2.5rem; }
+        .score-message { max-width: 290px; line-height: 1.5; }
+        @keyframes score-reveal { from { clip-path: inset(0 50% 0 50%); opacity: .2; } to { clip-path: inset(0); opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) { .score-ring { animation: none; } }
+        fieldset { border: 1px solid var(--line); border-radius: 6px; margin: 1.25rem 0; padding: 1rem; background: #F5F8FB; }
+        legend { padding: 0 .35rem; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { text-align: left; padding: .7rem; border-bottom: 1px solid var(--line); }
+        th { color: var(--navy); background: #14ADCD18; }
+        @media (max-width: 560px) {
+            header { padding: 1rem; }
+            header a { margin-left: .65rem; }
+            main { margin: 1.5rem auto; }
+            .panel { padding: 1.15rem; }
+            .score-layout { flex-direction: column; gap: 1.25rem; text-align: center; }
+            .score-copy { min-width: 0; }
+            .score-message { margin-left: auto; margin-right: auto; }
+            table { font-size: .88rem; }
+        }
+    </style>
+</head>
+<body>
+<header><strong><a href="{% url 'dashboard' %}">Student Portal</a></strong><nav>{% if user.is_authenticated %}<a href="{% url 'history' %}">History</a><a href="{% url 'logout' %}">Log out</a>{% endif %}</nav></header>
+<main>{% for message in messages %}<p class="messages">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main>
+</body>
+</html>
