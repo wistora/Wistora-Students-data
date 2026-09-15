@@ -13,9 +13,10 @@ class Command(BaseCommand):
         password = os.environ.get('DJANGO_SUPERUSER_PASSWORD')
 
         if not username or not password:
-            raise CommandError(
-                'Set DJANGO_SUPERUSER_USERNAME and DJANGO_SUPERUSER_PASSWORD before running create_admin.'
-            )
+            self.stdout.write(self.style.WARNING(
+                'Admin variables are not configured; skipping deployment admin setup.'
+            ))
+            return
 
         user_model = get_user_model()
         user, created = user_model.objects.get_or_create(
