@@ -19,6 +19,12 @@ class PortalFlowTests(TestCase):
 		response = self.client.get(reverse('dashboard'))
 		self.assertRedirects(response, f'{reverse("login")}?next={reverse("dashboard")}')
 
+	def test_student_can_log_out_with_post(self):
+		self.client.login(username='student', password='strong-pass-123')
+		response = self.client.post(reverse('logout'))
+		self.assertRedirects(response, reverse('login'))
+		self.assertFalse(response.wsgi_request.user.is_authenticated)
+
 	def test_staff_dashboard_redirects_to_login(self):
 		User.objects.create_superuser(username='admin', password='strong-pass-123', email='admin@example.com')
 		self.client.login(username='admin', password='strong-pass-123')

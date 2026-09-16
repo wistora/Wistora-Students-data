@@ -21,6 +21,9 @@
         header strong { letter-spacing: .04em; font-size: 1.05rem; }
         header a { color: white; text-decoration: none; margin-left: 1rem; }
         header nav a:hover, header nav a:focus { color: var(--cyan); }
+        .logout-form { display: inline; margin-left: 1rem; }
+        .logout-button { margin: 0; padding: 0; background: transparent; color: white; font: inherit; font-weight: normal; }
+        .logout-button:hover, .logout-button:focus { background: transparent; color: var(--cyan); transform: none; }
         main { max-width: 960px; margin: 2.5rem auto; padding: 0 1rem; }
         h1, h2 { color: var(--navy); letter-spacing: -.02em; }
         h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin-top: 0; }
@@ -68,7 +71,7 @@
     </style>
 </head>
 <body>
-<header><strong><a href="{% url 'dashboard' %}">Student Portal</a></strong><nav>{% if user.is_authenticated %}<a href="{% url 'history' %}">History</a><a href="{% url 'logout' %}">Log out</a>{% endif %}</nav></header>
+<header><strong><a href="{% url 'dashboard' %}">Student Portal</a></strong><nav>{% if user.is_authenticated %}<a href="{% url 'history' %}">History</a><form class="logout-form" method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="logout-button" type="submit">Log out</button></form>{% endif %}</nav></header>
 <main>{% for message in messages %}<p class="messages">{{ message }}</p>{% endfor %}{% block content %}{% endblock %}</main>
 </body>
 </html>
