@@ -93,6 +93,7 @@ if mysql_host:
             'PORT': os.environ.get('MYSQL_PORT', '3306'),
             'OPTIONS': {
                 'charset': 'utf8mb4',
+                'connect_timeout': 10,
             },
         }
     }
